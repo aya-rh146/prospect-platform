@@ -19,12 +19,10 @@ class ProspectsExport implements FromQuery, WithHeadings, WithMapping
 
     public function query()
     {
-        $search = $this->request->query('search');
-        $city = $this->request->query('city');
-
         $query = Prospect::query();
 
-        if ($search) {
+        if ($this->request->filled('search')) {
+            $search = $this->request->search;
             $query->where(function ($q) use ($search) {
                 $q->where('full_name', 'like', "%{$search}%")
                   ->orWhere('phone_number', 'like', "%{$search}%")
@@ -32,8 +30,8 @@ class ProspectsExport implements FromQuery, WithHeadings, WithMapping
             });
         }
 
-        if ($city && in_array($city, ['Tangier', 'Tetouan', 'Rabat', 'Kenitra'])) {
-            $query->where('city', $city);
+        if ($this->request->filled('city') && in_array($this->request->city, ['Tangier', 'Tetouan', 'Rabat', 'Kenitra'])) {
+            $query->where('city', $this->request->city);
         }
 
         return $query->latest();
@@ -42,20 +40,22 @@ class ProspectsExport implements FromQuery, WithHeadings, WithMapping
     public function headings(): array
     {
         return [
-            'Nom Complet',
-            'Téléphone',
-            'Email',
-            'Ville',
-            'Date d\'inscription',
+            'ID',
+            'الاسم الكامل',
+            'رقم الهاتف',
+            'البريد الإلكتروني',
+            'المدينة',
+            'تاريخ الإضافة',
         ];
     }
 
     public function map($prospect): array
     {
         return [
+            $prospect->id,
             $prospect->full_name,
             $prospect->phone_number,
-            $prospect->email ?? '-',
+            $prospect->email,
             $prospect->city,
             $prospect->created_at->format('d/m/Y H:i'),
         ];

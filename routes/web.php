@@ -48,6 +48,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/prospects', [App\Http\Controllers\Admin\ProspectController::class, 'index'])->name('admin.prospects.index');
+    Route::get('/prospects/{id}/edit', [App\Http\Controllers\Admin\ProspectController::class, 'edit'])->name('admin.prospects.edit');
+    Route::put('/prospects/{id}', [App\Http\Controllers\Admin\ProspectController::class, 'update'])->name('admin.prospects.update');
+    Route::delete('/prospects/{id}', [App\Http\Controllers\Admin\ProspectController::class, 'destroy'])->name('admin.prospects.destroy');
+    Route::get('/prospects/export', [App\Http\Controllers\Admin\ProspectController::class, 'export'])->name('admin.prospects.export');
+    Route::get('/admin/prospects', [App\Http\Controllers\Admin\ProspectController::class, 'index'])->name('admin.prospects');
+    Route::delete('/admin/prospects/{prospect}', [App\Http\Controllers\Admin\ProspectController::class, 'destroy'])->name('admin.prospects.destroy');   
     // Route للـ polling ديال الـ new leads (notification toast + sound)
     Route::get('/check-new-leads', function () {
         $lastId = request('last_id', 0);
