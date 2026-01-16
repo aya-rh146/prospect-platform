@@ -23,27 +23,33 @@ class DashboardController extends Controller
             ->groupBy('city')
             ->pluck('count', 'city');
 
+        $cityStats = [
+            'Tangier' => $cityDistribution['Tangier'] ?? 0,
+            'Tetouan' => $cityDistribution['Tetouan'] ?? 0,
+            'Rabat' => $cityDistribution['Rabat'] ?? 0,
+            'Kenitra' => $cityDistribution['Kenitra'] ?? 0
+        ];
+
         $visitorsToday = Visitor::getTodayCount() ?? 0;
         $visitorsMonth = Visitor::getThisMonthCount() ?? 0;
         $visitorsTotal = Visitor::getTotalCount() ?? 0;
 
         $recentProspects = Prospect::latest()->take(10)->get();
 
-        
         // نزيد هاد السطر الجديد باش نعرفو آخر lead ID
         $lastLeadId = Prospect::max('id') ?? 0;
         
 
         return view('dashboard', compact(
-            'totalProspects',
-            'todayProspects',
-            'monthProspects',
-            'cityDistribution',
-            'visitorsToday',
-            'visitorsMonth',
-            'visitorsTotal',
+            'totalProspects', 
+            'todayProspects', 
+            'monthProspects', 
+            'cityStats',
+            'visitorsToday', 
+            'visitorsMonth', 
+            'visitorsTotal', 
             'recentProspects',
-            'lastLeadId' 
+            'lastLeadId'
         ));
     }
 }

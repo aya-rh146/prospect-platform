@@ -94,4 +94,19 @@ class VideoController extends Controller
 
         return back()->with('success', 'Vidéo supprimée avec succès.');
     }
+
+    /**
+     * Reorder videos using drag & drop
+     */
+    public function reorder(Request $request)
+    {
+        $videos = $request->input('videos', []);
+        
+        foreach ($videos as $videoData) {
+            Video::where('id', $videoData['id'])
+                  ->update(['display_order' => $videoData['order']]);
+        }
+        
+        return response()->json(['success' => true]);
+    }
 }

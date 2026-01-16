@@ -52,6 +52,19 @@
                 </div>
             </div>
 
+            <!-- Advanced Charts Section -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+                <div class="bg-white p-8 rounded-xl shadow-lg">
+                    <h3 class="text-2xl font-bold mb-6">Évolution des Prospects</h3>
+                    <canvas id="evolutionChart" height="250"></canvas>
+                </div>
+
+                <div class="bg-white p-8 rounded-xl shadow-lg">
+                    <h3 class="text-2xl font-bold mb-6">Taux de Conversion</h3>
+                    <canvas id="conversionChart" height="250"></canvas>
+                </div>
+            </div>
+
             <!-- Derniers Prospects -->
             <div class="bg-white rounded-xl shadow-lg overflow-hidden">
                 <div class="p-6 border-b">
@@ -141,10 +154,30 @@
         });
     </script>
         <!-- Notification Toast + Sound للـ Leads الجدد -->
-        <audio id="newLeadSound" preload="auto">
-        <source src="https://cdn.freesound.org/previews/321/321647_5627644-lq.mp3" type="audio/mpeg">
-        Your browser does not support the audio element.
-    </audio>
+    <audio id="newLeadSound" preload="auto">
+    <source src="https://cdn.freesound.org/previews/321/321647_5627644-lq.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+</audio>
+
+    <!-- Flash Notification pour nouveau prospect -->
+    @if(session('new_prospect_notification'))
+        <div id="flashNotification" class="fixed top-4 right-4 z-50 animate-pulse">
+            <div class="bg-gradient-to-r from-green-600 to-green-700 text-white px-6 py-4 rounded-lg shadow-2xl max-w-sm">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                    <div class="ml-3">
+                        <p class="text-sm font-medium">Nouveau prospect !</p>
+                        <p class="text-xs mt-1">{{ session('new_prospect_notification')['name'] }} - {{ session('new_prospect_notification')['city'] }}</p>
+                        <p class="text-xs">{{ session('new_prospect_notification')['created_at'] }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
 
     <script>
         let lastLeadId = {{ $lastLeadId ?? 0 }};
@@ -184,5 +217,139 @@
 
         setInterval(checkNewLeads, 5000);
         checkNewLeads();
+
+        // Auto-hide flash notification après 5 secondes
+        @if(session('new_prospect_notification'))
+            setTimeout(() => {
+                const flashNotif = document.getElementById('flashNotification');
+                if (flashNotif) {
+                    flashNotif.style.transition = 'opacity 0.5s';
+                    flashNotif.style.opacity = '0';
+                    setTimeout(() => flashNotif.remove(), 500);
+                }
+            }, 5000);
+        @endif
+
+        // Enhanced Charts
+        // City Distribution Chart (Doughnut)
+        const cityCtx = document.getElementById('cityChart').getContext('2d');
+        new Chart(cityCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Tangier', 'Tetouan', 'Rabat', 'Kenitra'],
+                datasets: [{
+                    data: [{{ $cityStats['Tangier'] ?? 0 }}, {{ $cityStats['Tetouan'] ?? 0 }}, {{ $cityStats['Rabat'] ?? 0 }}, {{ $cityStats['Kenitra'] ?? 0 }}],
+                    backgroundColor: [
+                        'rgba(59, 130, 246, 0.8)',
+                        'rgba(16, 185, 129, 0.8)',
+                        'rgba(139, 92, 246, 0.8)',
+                        'rgba(251, 146, 60, 0.8)'
+                    ],
+                    borderColor: [
+                        'rgba(59, 130, 246, 1)',
+                        'rgba(16, 185, 129, 1)',
+                        'rgba(139, 92, 246, 1)',
+                        'rgba(251, 146, 60, 1)'
+                    ],
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            padding: 20,
+                            font: { size: 12 }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Evolution Chart (Line)
+        const evolutionCtx = document.getElementById('evolutionChart').getContext('2d');
+        new Chart(evolutionCtx, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sep', 'Oct', 'Nov', 'Déc'],
+                datasets: [{
+                    label: 'Prospects',
+                    data: [12, 19, 15, 25, 22, 30, 28, 35, 32, 40, 38, 45],
+                    borderColor: 'rgba(99, 102, 241, 1)',
+                    backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: { color: 'rgba(0, 0, 0, 0.05)' }
+                    },
+                    x: {
+                        grid: { display: false }
+                    }
+                }
+            }
+        });
+
+        // Conversion Chart (Bar)
+        const conversionCtx = document.getElementById('conversionChart').getContext('2d');
+        new Chart(conversionCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Tangier', 'Tetouan', 'Rabat', 'Kenitra'],
+                datasets: [{
+                    label: 'Taux de conversion (%)',
+                    data: [65, 78, 52, 71],
+                    backgroundColor: [
+                        'rgba(59, 130, 246, 0.8)',
+                        'rgba(16, 185, 129, 0.8)',
+                        'rgba(139, 92, 246, 0.8)',
+                        'rgba(251, 146, 60, 0.8)'
+                    ],
+                    borderColor: [
+                        'rgba(59, 130, 246, 1)',
+                        'rgba(16, 185, 129, 1)',
+                        'rgba(139, 92, 246, 1)',
+                        'rgba(251, 146, 60, 1)'
+                    ],
+                    borderWidth: 2,
+                    borderRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100,
+                        ticks: {
+                            callback: function(value) {
+                                return value + '%';
+                            }
+                        },
+                        grid: { color: 'rgba(0, 0, 0, 0.05)' }
+                    },
+                    x: {
+                        grid: { display: false }
+                    }
+                }
+            }
+        });
     </script>
 </x-app-layout>

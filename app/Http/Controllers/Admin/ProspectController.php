@@ -91,5 +91,27 @@ class ProspectController extends Controller
         // نمرر الـ request للـ Export class باش يطبق نفس الفلترة إلا بغيتي (اختياري)
         return Excel::download(new ProspectsExport($request), $filename);
     }
+
+    /**
+     * Suppression multiple de prospects (bulk delete)
+     */
+    public function bulkDelete(Request $request)
+    {
+        $selectedIds = $request->input('selected_ids');
+        
+        if (empty($selectedIds)) {
+            return back()->with('error', 'Aucun prospect sélectionné.');
+        }
+
+        // Convertir en array si c'est une chaîne
+        if (is_string($selectedIds)) {
+            $selectedIds = explode(',', $selectedIds);
+        }
+
+        // Supprimer les prospects sélectionnés
+        $deletedCount = Prospect::whereIn('id', $selectedIds)->delete();
+
+        return back()->with('success', "{$deletedCount} prospect(s) supprimé(s) avec succès.");
+    }
 }
 

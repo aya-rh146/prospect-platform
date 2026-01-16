@@ -14,6 +14,15 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('admin.prospects.index')" :active="request()->routeIs('admin.prospects.*')">
+                        {{ __('Prospects') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('admin.videos.index')" :active="request()->routeIs('admin.videos.*')">
+                        {{ __('Gestion des vidéos') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('admin.settings')" :active="request()->routeIs('admin.settings')">
+                        {{ __('Settings') }}
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -27,13 +36,14 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
                             </svg>
 
-                            <!-- Badge عدد الـ leads الجدد اليوم -->
+                            <!-- Badge عدد الـ leads الجدد aujourd'hui + non lus -->
                             @php
                                 $newLeadsToday = App\Models\Prospect::whereDate('created_at', today())->count();
+                                $unreadLeadsCount = session('new_prospect_notification') ? $newLeadsToday + 1 : $newLeadsToday;
                             @endphp
-                            @if($newLeadsToday > 0)
-                                <span class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-red-600 rounded-full transform translate-x-1/2 -translate-y-1/2">
-                                    {{ $newLeadsToday }}
+                            @if($unreadLeadsCount > 0)
+                                <span class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-red-600 rounded-full transform translate-x-1/2 -translate-y-1/2 animate-pulse">
+                                    {{ $unreadLeadsCount }}
                                 </span>
                             @endif
                         </button>
@@ -86,28 +96,26 @@
                     </x-slot>
                 </x-dropdown>
 
-                <!-- User Dropdown -->
+                <!-- Settings Dropdown -->
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
-                        <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition">
-                            <div>{{ Auth::user()->name }}</div>
-                            <div class="ms-1">
-                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                                </svg>
-                            </div>
+                        <button class="relative p-2 text-gray-500 hover:text-gray-700 focus:outline-none transition">
+                            <svg class="h-7 w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
                         </button>
                     </x-slot>
 
                     <x-slot name="content">
                         <x-dropdown-link :href="route('profile.edit')">
-                            {{ __('Profile') }}
+                            {{ __('Modifier mes informations') }}
                         </x-dropdown-link>
 
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
                             <x-dropdown-link :href="route('logout')" onclick="event.preventDefault(); this.closest('form').submit();">
-                                {{ __('Log Out') }}
+                                {{ __('Déconnexion') }}
                             </x-dropdown-link>
                         </form>
                     </x-slot>
@@ -132,6 +140,15 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('admin.prospects.index')" :active="request()->routeIs('admin.prospects.*')">
+                {{ __('Prospects') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('admin.videos.index')" :active="request()->routeIs('admin.videos.*')">
+                {{ __('Gestion des vidéos') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('admin.settings')" :active="request()->routeIs('admin.settings')">
+                {{ __('Settings') }}
+            </x-responsive-nav-link>
         </div>
 
         <div class="pt-4 pb-1 border-t border-gray-200">
@@ -142,13 +159,13 @@
 
             <div class="mt-3 space-y-1">
                 <x-responsive-nav-link :href="route('profile.edit')">
-                    {{ __('Profile') }}
+                    {{ __('Modifier mes informations') }}
                 </x-responsive-nav-link>
 
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <x-responsive-nav-link :href="route('logout')" onclick="event.preventDefault(); this.closest('form').submit();">
-                        {{ __('Log Out') }}
+                        {{ __('Déconnexion') }}
                     </x-responsive-nav-link>
                 </form>
             </div>
