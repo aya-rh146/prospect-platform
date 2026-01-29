@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr" class="scroll-smooth">
+<html lang="fr" dir="ltr" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <style>
-        /* Glass effect خفيف ومزيان */
+        /* Glass effect léger et moderne */
         .glass {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(12px);
@@ -26,8 +26,8 @@
 </head>
 <body class="bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900 min-h-screen text-white">
 
-    <!-- Navbar مع Button Espace Admin -->
-    <header class="container mx-auto px-6 py-8 flex justify-between items-center">
+    <!-- Navbar avec Button Espace Admin -->
+    <header class="container mx-auto max-w-7xl px-6 py-8 flex justify-between items-center">
         <div class="shrink-0 flex items-center">
             <a href="{{ route('dashboard') }}" class="flex items-center space-x-3">
             <img src="{{ asset('images/foto.png') }}" alt="Business Pro Academy" class="h-20 w-20">                    </a>
@@ -46,7 +46,7 @@
     </header>
 
     <!-- Hero Section -->
-    <section class="container mx-auto px-6 py-16 text-center">
+    <section class="container mx-auto max-w-7xl px-6 py-16 text-center">
         <h2 class="text-5xl md:text-7xl font-extrabold mb-6 animate-fade-in">
             Capturez vos leads <span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-pink-400">facilement</span>
         </h2>
@@ -123,7 +123,7 @@
     </section>
 
     <!-- Videos Highlights Section -->
-    <section class="container mx-auto px-6 py-16">
+    <section class="container mx-auto max-w-7xl px-6 py-16">
         <div class="relative">
             <!-- Boutons navigation -->
             <button id="prevBtn" class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-all duration-300 opacity-0 hover:opacity-100">
@@ -162,7 +162,7 @@
         </div>
     </section>
 
-    <!-- Login Modal (مخفي حتى تضغط على الـ button) -->
+    <!-- Login Modal (caché jusqu'à ce que vous cliquiez sur le button) -->
     <div id="loginModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-4">
         <div class="glass max-w-md w-full p-10 rounded-3xl shadow-2xl">
             <h2 class="text-4xl font-bold text-center mb-10">Connexion Admin</h2>
@@ -219,7 +219,7 @@
 
     <!-- Footer -->
     <footer class="glass mt-20 py-8">
-        <div class="container mx-auto px-6">
+        <div class="container mx-auto max-w-7xl px-6">
             <div class="flex flex-col md:flex-row justify-between items-center">
                 <div class="mb-4 md:mb-0">
                     <p class="text-white/80">&copy; {{ date('Y') }} Business Pro Academy. Tous droits réservés.</p>

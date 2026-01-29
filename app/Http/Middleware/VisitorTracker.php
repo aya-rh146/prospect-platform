@@ -20,19 +20,8 @@ class VisitorTracker
 
     private function trackVisitor(Request $request)
     {
-        $ip = $request->ip();
-        $userAgent = $request->userAgent();
-
-        // Avoid tracking bots and repeated visits
-        if ($this->isBot($userAgent) || $this->isRecentVisit($ip)) {
-            return;
-        }
-
-        Visitor::create([
-            'ip' => $ip,
-            'user_agent' => $userAgent,
-            'visited_at' => now()
-        ]);
+        // Utiliser la méthode incrementToday() du modèle Visitor
+        Visitor::incrementToday();
     }
 
     private function isBot($userAgent)

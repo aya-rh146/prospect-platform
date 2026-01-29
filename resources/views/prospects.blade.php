@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr" class="scroll-smooth">
+<html lang="fr" dir="ltr" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        /* Glass effect خفيف ومزيان */
+        /* Glass effect léger et moderne */
         .glass {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(12px);
@@ -207,9 +207,9 @@
         
         if (langIcon.textContent === '🇫🇷') {
             langIcon.textContent = '🇫🇷';
-            title.innerHTML = 'إدارة <span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-pink-400">العملاء المحتملين</span>';
-            description.textContent = 'استشر وإدارة جميع عملائك المحتملين';
-            localStorage.setItem('lang', 'ar');
+            title.innerHTML = 'Gestion <span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-pink-400">des Prospects</span>';
+            description.textContent = 'Consultez et gérez tous vos prospects';
+            localStorage.setItem('lang', 'fr');
         } else {
             langIcon.textContent = '🇫🇷';
             title.innerHTML = 'Gestion des <span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-pink-400">Prospects</span>';

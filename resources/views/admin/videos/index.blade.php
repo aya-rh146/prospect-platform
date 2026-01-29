@@ -11,7 +11,7 @@
                 </h2>
                 <p class="text-gray-600 mt-2">Organisez et gérez vos vidéos</p>
             </div>
-            <a href="{{ route('videos.create') }}" class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition shadow-lg">
+            <a href="{{ route('admin.videos.create') }}" class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition shadow-lg">
                 Ajouter Vidéo
             </a>
         </div>
@@ -49,11 +49,11 @@
                             
                             <!-- Actions -->
                             <div class="flex items-center space-x-2">
-                                <a href="{{ route('videos.edit', $video->id) }}" 
+                                <a href="{{ route('admin.videos.edit', $video->id) }}" 
                                    class="text-indigo-600 hover:text-indigo-900 font-medium">
                                     Modifier
                                 </a>
-                                <form action="{{ route('videos.destroy', $video->id) }}" method="POST" class="inline">
+                                <form action="{{ route('admin.videos.destroy', $video->id) }}" method="POST" class="inline">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" 

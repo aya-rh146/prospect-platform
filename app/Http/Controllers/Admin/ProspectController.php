@@ -11,7 +11,7 @@ use Maatwebsite\Excel\Facades\Excel;
 class ProspectController extends Controller
 {
     /**
-     * عرض صفحة جميع الـ Prospects مع بحث وفلترة بالمدينة
+     * Afficher la page de tous les prospects avec recherche et filtrage par ville
      */
     public function index(Request $request)
     {
@@ -20,7 +20,7 @@ class ProspectController extends Controller
 
         $query = Prospect::query();
 
-        // البحث بالاسم الكامل أو الهاتف أو الإيميل
+        // Recherche par nom complet, téléphone ou email
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('full_name', 'like', "%{$search}%")
@@ -29,66 +29,77 @@ class ProspectController extends Controller
             });
         }
 
-        // فلترة بالمدينة (المدن اللي حددتيهم)
+        // Filtrage par ville (les villes que vous avez spécifiées)
         if ($city && in_array($city, ['Tangier', 'Tetouan', 'Rabat', 'Kenitra'])) {
             $query->where('city', $city);
         }
 
-        // ترتيب من الأحدث إلى الأقدم + pagination
+        // Tri du plus récent au plus ancien + pagination
         $prospects = $query->latest()->paginate(20);
 
-        // باش يبقى البحث والفلترة فالـ pagination links
+        // Pour conserver la recherche et le filtrage dans les liens de pagination
         $prospects->appends(['search' => $search, 'city' => $city]);
 
         return view('admin.prospects.index', compact('prospects', 'search', 'city'));
     }
 
     /**
-     * عرض صفحة تعديل Prospect
+     * Afficher la page de modification de prospect
      */
-    public function edit(Prospect $prospect)
+    public function edit($id)
     {
+        $prospect = Prospect::findOrFail($id);
         return view('admin.prospects.edit', compact('prospect'));
     }
 
     /**
-     * تحديث بيانات Prospect
+     * Mettre à jour les données du prospect
      */
-    public function update(Request $request, Prospect $prospect)
+    public function update(Request $request, $id)
     {
+        $prospect = Prospect::findOrFail($id);
+        
         $request->validate([
             'full_name'     => 'required|string|max:255',
             'phone_number'  => 'required|string|max:20|unique:prospects,phone_number,' . $prospect->id,
             'email'         => 'nullable|email|max:255|unique:prospects,email,' . $prospect->id,
             'city'          => 'required|in:Tangier,Tetouan,Rabat,Kenitra',
-            // زد باقي الحقول إلا كانو عندك (message, source, etc.)
+            // Ajoutez les autres champs si vous en avez (message, source, etc.)
+        ], [
+            'full_name.required' => 'Le nom complet est obligatoire.',
+            'phone_number.required' => 'Le numéro de téléphone est obligatoire.',
+            'phone_number.unique' => 'Ce numéro de téléphone existe déjà.',
+            'email.email' => 'Veuillez entrer une adresse email valide.',
+            'email.unique' => 'Cet email existe déjà.',
+            'city.required' => 'La ville est obligatoire.',
+            'city.in' => 'Veuillez sélectionner une ville valide.',
         ]);
 
         $prospect->update($request->all());
 
         return redirect()->route('admin.prospects.index')
-                         ->with('success', 'تم تعديل الـ Prospect بنجاح.');
+                        ->with('success', 'Prospect mis à jour avec succès.');
     }
 
     /**
-     * حذف Prospect
+     * Supprimer un prospect
      */
     public function destroy(Prospect $prospect)
     {
         $prospect->delete();
 
-        return back()->with('success', 'تم حذف الـ Prospect بنجاح.');
+        return back()->with('success', 'Prospect supprimé avec succès.');
     }
 
     /**
-     * تصدير جميع الـ Prospects إلى Excel
+     * Exporter tous les prospects vers Excel
      */
     public function export(Request $request)
     {
-        // باش نحافظ على نفس الفلترة والبحث فالـ export
+        // Pour conserver le même filtrage et recherche dans l'export
         $filename = 'prospects_' . now()->format('Y-m-d_H-i-s') . '.xlsx';
 
-        // نمرر الـ request للـ Export class باش يطبق نفس الفلترة إلا بغيتي (اختياري)
+        // On passe le request à la classe Export pour appliquer le même filtrage si souhaité (optionnel)
         return Excel::download(new ProspectsExport($request), $filename);
     }
 

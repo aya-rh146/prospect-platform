@@ -1,4 +1,4 @@
-@extends('layouts.app') <!-- إلا عندك layout، ولا خليه html عادي -->
+@extends('layouts.app') <!-- utilisez votre layout existant -->
 
 @section('content')
 <div class="container mx-auto p-6">

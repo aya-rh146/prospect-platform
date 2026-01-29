@@ -1,3 +1,27 @@
 @import 'tailwindcss/base';
-@import 'tailwindcss/components';
+@import 'tailwindcss/components';  
 @import 'tailwindcss/utilities';
+
+/* Classes personnalisées pour l'admin */
+.admin-test {
+  background-color: rgb(239 68 68);
+  color: white;
+  padding: 5rem;
+  font-size: 3rem;
+  font-weight: bold;
+  border-radius: 1rem;
+  box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+  text-align: center;
+  margin: 2rem;
+}
+
+/* Force la compilation des classes utilisées dans l'admin */
+.bg-red-700 { background-color: rgb(185 28 28); }
+.text-white { color: white; }
+.p-20 { padding: 5rem; }
+.text-5xl { font-size: 3rem; }
+.font-bold { font-weight: 700; }
+.rounded-2xl { border-radius: 1rem; }
+.shadow-2xl { box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25); }
+.text-center { text-align: center; }
+.m-8 { margin: 2rem; }

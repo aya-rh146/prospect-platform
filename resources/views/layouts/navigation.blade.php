@@ -36,7 +36,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
                             </svg>
 
-                            <!-- Badge عدد الـ leads الجدد aujourd'hui + non lus -->
+                            <!-- Badge nombre des leads nouveaux aujourd'hui + non lus -->
                             @php
                                 $newLeadsToday = App\Models\Prospect::whereDate('created_at', today())->count();
                                 $unreadLeadsCount = session('new_prospect_notification') ? $newLeadsToday + 1 : $newLeadsToday;
@@ -50,12 +50,12 @@
                     </x-slot>
 
                     <x-slot name="content">
-                        <!-- عنوان الإشعارات -->
+                        <!-- Titre des notifications -->
                         <div class="block px-4 py-3 text-sm font-semibold text-gray-700 border-b border-gray-200">
-                            إشعارات الـ Leads الجدد اليوم
+                            Notifications des nouveaux leads aujourd'hui
                         </div>
 
-                        <!-- لائحة الـ leads الجدد -->
+                        <!-- Liste des nouveaux leads -->
                         @php
                             $recentNewLeads = App\Models\Prospect::whereDate('created_at', today())
                                                 ->latest()
@@ -65,7 +65,7 @@
 
                         @if($recentNewLeads->isEmpty())
                             <div class="px-4 py-8 text-center text-gray-500 text-sm">
-                                لا توجد إشعارات جديدة اليوم 😊
+                                Aucune nouvelle notification aujourd'hui 😊
                             </div>
                         @else
                             @foreach($recentNewLeads as $lead)
@@ -75,7 +75,7 @@
                                         <div class="text-sm text-gray-600">📞 {{ $lead->phone_number }}</div>
                                         <div class="text-xs text-gray-500 mt-1">{{ $lead->created_at->diffForHumans() }}</div>
                                     </div>
-                                    <a href="https://wa.me/212{{ ltrim($lead->phone_number, '0') }}?text=السلام%20عليكم%20{{ urlencode($lead->full_name) }}%0A%0Aمرحبا%20بيك%20بزاف،%20شكرا%20بزاف%20على%20اهتمامك%20بفورماسيون%20Network%20Marketing%20ديالنا!%0A%0Aأنا%20آية%20الرواح%20،%20وأنا%20هنا%20باش%20نساعدك%20شخصياً%20ونمشيو%20معاك%20خطوة%20بخطوة.%0A%0Aخليلي%20غير%20%22مهتم%22%20باش%20نبدأو%20فوراً!%0A%0Aفي%20انتظار%20ردك%20بسرعة%20🚀" 
+                                    <a href="https://wa.me/212{{ ltrim($lead->phone_number, '0') }}?text=Bonjour%20{{ urlencode($lead->full_name) }}%0A%0AMerci%20beaucoup%20pour%20votre%20intérêt%20pour%20notre%20formation%20Network%20Marketing.%0A%0AJe%20suis%20Aya%20Rouah%20et%20je%20suis%20là%20pour%20vous%20aider%20personnellement%20et%20avancer%20avec%20vous%20pas%20à%20pas.%0A%0ALaissez%20juste%20%22intéressé(e)%22%20pour%20commencer%20immédiatement%20!%0A%0AEn%20attendant%20votre%20réponse%20rapide%20🚀" 
                                        target="_blank"
                                        class="inline-flex items-center px-3 py-2 bg-green-600 hover:bg-green-700 text-white text-xs font-medium rounded-full shadow transition">
                                         <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 24 24">
@@ -87,10 +87,10 @@
                             @endforeach
                         @endif
 
-                        <!-- عرض الكل -->
+                        <!-- Voir tout -->
                         <div class="px-4 py-3 text-center border-t border-gray-200">
                             <a href="{{ route('dashboard') }}" class="text-sm font-medium text-indigo-600 hover:text-indigo-800">
-                                عرض جميع الـ Prospects →
+                                Voir tous les prospects →
                             </a>
                         </div>
                     </x-slot>

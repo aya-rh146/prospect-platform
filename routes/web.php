@@ -56,7 +56,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/prospects/{id}/edit', [App\Http\Controllers\Admin\ProspectController::class, 'edit'])->name('admin.prospects.edit');
     Route::put('/prospects/{id}', [App\Http\Controllers\Admin\ProspectController::class, 'update'])->name('admin.prospects.update');
     Route::delete('/prospects/{id}', [App\Http\Controllers\Admin\ProspectController::class, 'destroy'])->name('admin.prospects.destroy');
-    Route::get('/prospects/export', [App\Http\Controllers\Admin\ProspectController::class, 'export'])->name('admin.prospects.export');
+    Route::post('/prospects/export', [App\Http\Controllers\Admin\ProspectController::class, 'export'])->name('admin.prospects.export');
     Route::get('/admin/prospects', [App\Http\Controllers\Admin\ProspectController::class, 'index'])->name('admin.prospects');
     Route::delete('/admin/prospects/{prospect}', [App\Http\Controllers\Admin\ProspectController::class, 'destroy'])->name('admin.prospects.destroy');
     Route::post('/prospects/bulk-delete', [App\Http\Controllers\Admin\ProspectController::class, 'bulkDelete'])->name('admin.prospects.bulkDelete');

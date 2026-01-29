@@ -4,7 +4,7 @@
 <div class="container mx-auto p-4">
     <h1 class="text-2xl font-bold mb-4">{{ isset($video) ? 'Modifier' : 'Ajouter' }} Vidéo</h1>
 
-    <form action="{{ isset($video) ? route('videos.update', $video->id) : route('videos.store') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ isset($video) ? route('admin.videos.update', $video->id) : route('admin.videos.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
         @if(isset($video))
             @method('PUT')
