@@ -19,7 +19,7 @@ class ProspectController extends Controller
             'phone_number' => 'required|string|regex:/^[0-9+\-\s()]{10,20}$/|unique:prospects,phone_number',
             'email'        => 'nullable|email|max:100|unique:prospects,email',
             'city'         => 'required|in:Tangier,Tetouan,Rabat,Kenitra',
-            'g-recaptcha-response' => 'required|captcha'
+            // 'g-recaptcha-response' => 'required|captcha' // Temporairement désactivé
         ], [
             'full_name.required'    => 'Le nom complet est obligatoire.',
             'full_name.regex'       => 'Le nom ne doit contenir que des lettres et des espaces.',
@@ -30,8 +30,8 @@ class ProspectController extends Controller
             'email.unique'          => 'Cet email est déjà enregistré.',
             'city.required'         => 'Veuillez sélectionner une ville.',
             'city.in'               => 'La ville sélectionnée n\'est pas valide.',
-            'g-recaptcha-response.required' => 'Veuillez valider le CAPTCHA.',
-            'g-recaptcha-response.captcha' => 'CAPTCHA invalide, veuillez réessayer.'
+            // 'g-recaptcha-response.required' => 'Veuillez valider le CAPTCHA.',
+            // 'g-recaptcha-response.captcha' => 'CAPTCHA invalide, veuillez réessayer.'
         ]);
 
         // Create prospect

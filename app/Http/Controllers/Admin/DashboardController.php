@@ -36,14 +36,19 @@ class DashboardController extends Controller
 
         $recentProspects = Prospect::latest()->take(10)->get();
 
+        $lastProspects = Prospect::latest()->take(5)->get();
+
+        // Normaliser les villes pour traduction
+        $lastProspects->each(function ($prospect) {
+            $prospect->city = strtolower(trim($prospect->city));
+        });
+
         // Variables manquantes pour la vue dashboard.blade.php
         $newToday = Prospect::whereDate('created_at', Carbon::today())->count();
         
         $topCity = $cityDistribution->isNotEmpty() 
-            ? $cityDistribution->keys()->first() 
-            : 'Aucune';
-            
-        $lastProspects = Prospect::latest()->take(5)->get();
+            ? strtolower(trim($cityDistribution->keys()->first())) 
+            : 'none';
 
         // Ajout de cette ligne pour connaître le dernier lead ID
         $lastLeadId = Prospect::max('id') ?? 0;

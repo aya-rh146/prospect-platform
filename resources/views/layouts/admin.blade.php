@@ -1,11 +1,14 @@
 <!DOCTYPE html>
-<html lang="{{ app()->getLocale() }}" dir="ltr"><head>
+<html lang="{{ app()->getLocale() }}" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}"><head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('title', 'Admin Panel') - Business Pro Academy</title>
     
     <!-- Tailwind CSS CDN (comme les pages publiques) -->
     <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- SweetAlert2 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -120,17 +123,57 @@
         </div>
     </footer>
 
-    <!-- Flash Messages -->
-    @if(session()->has('success'))
-        <div class="fixed bottom-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-pulse">
-            {{ session('success') }}
-        </div>
-    @endif
+    <!-- Flash Messages avec SweetAlert2 -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Success messages
+            @if(session()->has('success'))
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Succès',
+                    text: '{{ session('success') }}',
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    background: '#10b981',
+                    color: '#ffffff'
+                });
+            @endif
 
-    @if(session()->has('error'))
-        <div class="fixed bottom-4 right-4 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-pulse">
-            {{ session('error') }}
-        </div>
-    @endif
+            // Error messages
+            @if(session()->has('error'))
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Erreur',
+                    text: '{{ session('error') }}',
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 4000,
+                    timerProgressBar: true,
+                    background: '#ef4444',
+                    color: '#ffffff'
+                });
+            @endif
+
+            // Info messages (pour autres types de notifications)
+            @if(session()->has('info'))
+                Swal.fire({
+                    icon: 'info',
+                    title: 'Information',
+                    text: '{{ session('info') }}',
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    background: '#3b82f6',
+                    color: '#ffffff'
+                });
+            @endif
+        });
+    </script>
 </body>
 </html>

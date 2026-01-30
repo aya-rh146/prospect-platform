@@ -12,17 +12,30 @@
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
+                        {{ __('messages.nav.dashboard') }}
                     </x-nav-link>
                     <x-nav-link :href="route('admin.prospects.index')" :active="request()->routeIs('admin.prospects.*')">
-                        {{ __('Prospects') }}
+                        {{ __('messages.nav.prospects') }}
                     </x-nav-link>
                     <x-nav-link :href="route('admin.videos.index')" :active="request()->routeIs('admin.videos.*')">
-                        {{ __('Gestion des vidéos') }}
+                        {{ __('messages.nav.videos') }}
                     </x-nav-link>
                     <x-nav-link :href="route('admin.settings')" :active="request()->routeIs('admin.settings')">
-                        {{ __('Settings') }}
+                        {{ __('messages.nav.settings') }}
                     </x-nav-link>
+                </div>
+                
+                <!-- Language Selector -->
+                <div class="ms-3">
+                    <select onchange="window.location.href='{{ request()->url() }}?locale='+this.value" 
+                            class="bg-gray-700 text-white text-sm rounded-lg px-3 py-2 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option value="fr" {{ app()->getLocale() === 'fr' ? 'selected' : '' }}>
+                            🇫🇷 {{ __('messages.language.french') }}
+                        </option>
+                        <option value="ar" {{ app()->getLocale() === 'ar' ? 'selected' : '' }}>
+                            🇸🇦 {{ __('messages.language.arabic') }}
+                        </option>
+                    </select>
                 </div>
             </div>
 

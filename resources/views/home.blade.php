@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="fr" dir="ltr" class="scroll-smooth">
+<html lang="{{ app()->getLocale() }}" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prospect Platform</title>
+    <title>{{ __('messages.home.title') }}</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <style>
@@ -22,6 +22,13 @@
         .animate-fade-in {
             animation: fadeIn 0.8s ease-out forwards;
         }
+        /* Force reCAPTCHA visibility */
+        .g-recaptcha {
+            display: block !important;
+            visibility: visible !important;
+            transform: scale(1) !important;
+            opacity: 1 !important;
+        }
     </style>
 </head>
 <body class="bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900 min-h-screen text-white">
@@ -38,10 +45,22 @@
                Espace Admin
            </a>
        @else
-           <button onclick="document.getElementById('loginModal').classList.remove('hidden')"
-                   class="glass px-8 py-4 rounded-full font-semibold text-lg hover:scale-105 transition transform shadow-xl">
-               Espace Admin
-           </button>
+           <!-- Language Selector -->
+           <div class="flex items-center space-x-4">
+               <select onchange="window.location.href='{{ request()->url() }}?locale='+this.value" 
+                       class="glass text-white text-sm rounded-lg px-3 py-2 border border-white/20 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                   <option value="fr" {{ app()->getLocale() === 'fr' ? 'selected' : '' }}>
+                       🇫🇷 {{ __('messages.language.french') }}
+                   </option>
+                   <option value="ar" {{ app()->getLocale() === 'ar' ? 'selected' : '' }}>
+                       🇸🇦 {{ __('messages.language.arabic') }}
+                   </option>
+               </select>
+               <button onclick="document.getElementById('loginModal').classList.remove('hidden')" 
+                       class="glass px-8 py-4 rounded-full font-semibold text-lg hover:scale-105 transition transform shadow-xl">
+                   {{ __('messages.auth.login') }}
+               </button>
+           </div>
        @endif
     </header>
 
@@ -54,56 +73,47 @@
             Une plateforme moderne pour collecter, gérer et convertir vos prospects en clients.
         </p>
 
-        <!-- Messages Success / Error -->
-        @if(session('success'))
-            <div class="glass max-w-2xl mx-auto p-6 rounded-2xl mb-8 animate-fade-in">
-                <p class="text-green-300 text-lg font-semibold">{{ session('success') }}</p>
-            </div>
-        @endif
-        @if($errors->any())
-            <div class="glass max-w-2xl mx-auto p-6 rounded-2xl mb-8 animate-fade-in">
-                <ul class="text-red-300 space-y-2">
-                    @foreach($errors->all() as $error)
-                        <li>• {{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
+        <!-- Prospect Form -->
+        <div class="max-w-2xl mx-auto">
+            @if(session('success'))
+                <div class="glass p-6 rounded-2xl mb-8 text-center animate-fade-in">
+                    <h3 class="text-2xl font-bold mb-4">✅ {{ __('messages.home.form.success') }}</h3>
+                </div>
+            @endif
 
-        <!-- Form Prospect -->
-        <div class="glass max-w-3xl mx-auto p-10 rounded-3xl shadow-2xl animate-fade-in">
-            <form action="{{ route('prospects.store') }}" method="POST" id="prospectForm">
+            <form action="{{ route('prospects.store') }}" method="POST" class="glass p-10 rounded-3xl shadow-2xl animate-fade-in">
                 @csrf
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                     <div>
-                        <input type="text" name="full_name" value="{{ old('full_name') }}" placeholder="Nom Complet *" required
-                               class="glass px-6 py-4 rounded-xl focus:outline-none focus:ring-4 focus:ring-pink-500/50 text-lg w-full">
+                        <input type="text" name="full_name" placeholder="{{ __('messages.home.form.name') }}" required
+                            class="w-full glass px-6 py-4 rounded-xl text-lg placeholder-white/70 focus:ring-4 focus:ring-pink-500/50">
                         @error('full_name')
                             <p class="text-red-300 text-sm mt-2">{{ $message }}</p>
                         @enderror
                     </div>
                     <div>
-                        <input type="text" name="phone_number" value="{{ old('phone_number') }}" placeholder="Téléphone *" required
-                               class="glass px-6 py-4 rounded-xl focus:outline-none focus:ring-4 focus:ring-pink-500/50 text-lg w-full">
+                        <input type="tel" name="phone_number" placeholder="{{ __('messages.home.form.phone') }}" required
+                            class="w-full glass px-6 py-4 rounded-xl text-lg placeholder-white/70 focus:ring-4 focus:ring-pink-500/50">
                         @error('phone_number')
                             <p class="text-red-300 text-sm mt-2">{{ $message }}</p>
                         @enderror
                     </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                     <div>
-                        <input type="email" name="email" value="{{ old('email') }}" placeholder="Email (optionnel)"
-                               class="glass px-6 py-4 rounded-xl focus:outline-none focus:ring-4 focus:ring-pink-500/50 text-lg w-full">
+                        <input type="email" name="email" placeholder="{{ __('messages.home.form.email') }}"
+                            class="w-full glass px-6 py-4 rounded-xl text-lg placeholder-white/70 focus:ring-4 focus:ring-pink-500/50">
                         @error('email')
                             <p class="text-red-300 text-sm mt-2">{{ $message }}</p>
                         @enderror
                     </div>
                     <div>
-                        <select name="city" required
-                                class="glass px-6 py-4 rounded-xl focus:outline-none focus:ring-4 focus:ring-pink-500/50 text-lg w-full">
-                            <option value="">Ville *</option>
-                            <option value="Tangier" {{ old('city') == 'Tangier' ? 'selected' : '' }}>Tangier</option>
-                            <option value="Tetouan" {{ old('city') == 'Tetouan' ? 'selected' : '' }}>Tetouan</option>
-                            <option value="Rabat" {{ old('city') == 'Rabat' ? 'selected' : '' }}>Rabat</option>
-                            <option value="Kenitra" {{ old('city') == 'Kenitra' ? 'selected' : '' }}>Kenitra</option>
+                        <select name="city" required class="w-full glass px-6 py-4 rounded-xl text-lg text-white/70 focus:ring-4 focus:ring-pink-500/50">
+                            <option value="" class="bg-gray-800">{{ __('messages.common.select') }}</option>
+                            <option value="Tangier" class="bg-gray-800">Tangier</option>
+                            <option value="Tetouan" class="bg-gray-800">Tetouan</option>
+                            <option value="Rabat" class="bg-gray-800">Rabat</option>
+                            <option value="Kenitra" class="bg-gray-800">Kenitra</option>
                         </select>
                         @error('city')
                             <p class="text-red-300 text-sm mt-2">{{ $message }}</p>
@@ -111,13 +121,14 @@
                     </div>
                 </div>
                 <button type="submit" class="w-full bg-gradient-to-r from-pink-600 to-yellow-500 py-5 rounded-xl text-xl font-bold hover:scale-105 transition transform shadow-2xl">
-                    Envoyer ma demande
+                    {{ __('messages.home.form.submit') }}
                 </button>
                 
                 <!-- Google reCAPTCHA -->
-                <div class="mt-6">
-                    <div class="g-recaptcha" data-sitekey="6LcXvQpAAAAAKjYhN_8fXhJhN8pKjYhN8fXhJ"></div>
-                </div>
+                <!-- Temporairement masqué pendant la configuration -->
+                <!-- <div class="mt-6">
+                    <div class="g-recaptcha" data-sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"></div>
+                </div> -->
             </form>
         </div>
     </section>
@@ -165,15 +176,19 @@
     <!-- Login Modal (caché jusqu'à ce que vous cliquiez sur le button) -->
     <div id="loginModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-4">
         <div class="glass max-w-md w-full p-10 rounded-3xl shadow-2xl">
-            <h2 class="text-4xl font-bold text-center mb-10">Connexion Admin</h2>
+            <h2 class="text-4xl font-bold text-center mb-10">{{ __('messages.auth.login') }}</h2>
             <form action="{{ route('login') }}" method="POST">
                 @csrf
-                <input type="email" name="email" placeholder="Email" required autofocus
+                <input type="email" name="email" placeholder="{{ __('messages.auth.email_placeholder') }}" required autofocus
                     class="w-full glass mb-6 px-6 py-4 rounded-xl focus:ring-4 focus:ring-pink-500/50 text-lg">
-                <input type="password" name="password" placeholder="Mot de passe" required
+                <input type="password" name="password" placeholder="{{ __('messages.auth.password_placeholder') }}" required
                     class="w-full glass mb-10 px-6 py-4 rounded-xl focus:ring-4 focus:ring-pink-500/50 text-lg">
+                <div class="flex items-center mb-6">
+                    <input type="checkbox" name="remember" id="remember" class="mr-2">
+                    <label for="remember" class="text-white/80">{{ __('messages.auth.remember') }}</label>
+                </div>
                 <button type="submit" class="w-full bg-gradient-to-r from-pink-600 to-purple-600 py-5 rounded-xl text-xl font-bold hover:scale-105 transition shadow-xl">
-                    Se connecter
+                    {{ __('messages.auth.login_button') }}
                 </button>
             </form>
             <button onclick="document.getElementById('loginModal').classList.add('hidden')"

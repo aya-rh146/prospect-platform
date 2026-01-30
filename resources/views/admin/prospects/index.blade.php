@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Prospects - Gestion')
+@section('title', __('messages.prospects.title'))
 
 @section('content')
 <div class="p-6 bg-gradient-to-br from-slate-50 to-blue-50 min-h-screen">
@@ -8,21 +8,21 @@
     <div class="mb-8">
         <div class="flex justify-between items-center">
             <div>
-                <h1 class="text-4xl font-bold text-slate-800 mb-2">Gestion des Prospects</h1>
-                <p class="text-slate-600">Consultez, gérez et exportez tous vos prospects</p>
+                <h1 class="text-4xl font-bold text-slate-800 mb-2">{{ __('messages.prospects.title') }}</h1>
+                <p class="text-slate-600">{{ __('messages.prospects.description') }}</p>
             </div>
             <div class="flex gap-3">
                 <button onclick="exportFiltered()" class="bg-gradient-to-r from-indigo-600 to-blue-600 text-white px-6 py-3 rounded-xl hover:from-indigo-700 hover:to-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 flex items-center">
                     <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                     </svg>
-                    Exporter filtré
+                    {{ __('messages.prospects.bulk.export_filtered') }}
                 </button>
                 <a href="{{ route('admin.prospects.export') }}" class="bg-gradient-to-r from-emerald-600 to-green-600 text-white px-6 py-3 rounded-xl hover:from-emerald-700 hover:to-green-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 flex items-center">
                     <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
                     </svg>
-                    Exporter tout
+                    {{ __('messages.prospects.bulk.export_all') }}
                 </a>
             </div>
         </div>
@@ -35,20 +35,20 @@
                 <svg class="w-5 h-5 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                 </svg>
-                Filtres de recherche
+                {{ __('messages.prospects.search_filters') }}
             </h2>
         </div>
         <form method="GET">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
                 <div class="relative">
-                    <input type="text" name="search" value="{{ request('search') }}" placeholder="Rechercher nom, téléphone, email..." class="w-full border border-slate-300 rounded-xl px-4 py-3 pl-10 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200">
+                    <input type="text" name="search" value="{{ request('search') }}" placeholder="{{ __('messages.prospects.search_placeholder') }}" class="w-full border border-slate-300 rounded-xl px-4 py-3 pl-10 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200">
                     <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                     </svg>
                 </div>
                 
                 <select name="city" class="w-full border border-slate-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200">
-                    <option value="">Toutes les villes</option>
+                    <option value="">{{ __('messages.prospects.filter_all') }}</option>
                     <option value="Tangier" {{ request('city') == 'Tangier' ? 'selected' : '' }}>Tangier</option>
                     <option value="Tetouan" {{ request('city') == 'Tetouan' ? 'selected' : '' }}>Tetouan</option>
                     <option value="Rabat" {{ request('city') == 'Rabat' ? 'selected' : '' }}>Rabat</option>
@@ -64,13 +64,13 @@
                     <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                     </svg>
-                    Rechercher
+                    {{ __('messages.common.search') }}
                 </button>
                 <a href="{{ route('admin.prospects.index') }}" class="text-slate-600 hover:text-slate-900 transition-colors duration-200 flex items-center">
                     <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
                     </svg>
-                    Réinitialiser filtres
+                    {{ __('messages.prospects.reset_filters') }}
                 </a>
             </div>
         </form>
@@ -81,8 +81,8 @@
     <div class="bg-white rounded-2xl shadow-lg border border-slate-200 p-6 mb-6 flex justify-between items-center">
         <div class="flex items-center gap-3">
             <input type="checkbox" id="selectAll" class="w-5 h-5 text-indigo-600 rounded focus:ring-2 focus:ring-indigo-500">
-            <label for="selectAll" class="text-sm font-medium text-slate-700">Sélectionner tout</label>
-            <span id="selectedCount" class="text-sm text-slate-500">0 sélectionné(s)</span>
+            <label for="selectAll" class="text-sm font-medium text-slate-700">{{ __('messages.prospects.bulk.select_all') }}</label>
+            <span id="selectedCount" class="text-sm text-slate-500">0 {{ __('messages.prospects.bulk.selected') }}</span>
         </div>
         
         <div class="flex gap-3">
@@ -90,13 +90,13 @@
                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                 </svg>
-                Exporter sélectionnés
+                {{ __('messages.prospects.bulk.export_selected') }}
             </button>
             <button onclick="deleteSelected()" class="bg-gradient-to-r from-red-600 to-pink-600 text-white px-6 py-3 rounded-xl hover:from-red-700 hover:to-pink-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 flex items-center disabled:opacity-50" id="deleteSelectedBtn" disabled>
                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
                 </svg>
-                Supprimer sélectionnés
+                {{ __('messages.prospects.bulk.delete') }}
             </button>
         </div>
     </div>
@@ -109,8 +109,8 @@
                 <svg class="w-6 h-6 mr-3 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
                 </svg>
-                Liste des Prospects
-                <span class="ml-3 text-sm font-normal text-slate-600">({{ $prospects->count() }} résultat(s))</span>
+                {{ __('messages.prospects.list_title') }}
+                <span class="ml-3 text-sm font-normal text-slate-600">({{ $prospects->count() }} {{ __('messages.prospects.results') }})</span>
             </h2>
         </div>
         
@@ -125,17 +125,17 @@
                             ID <span class="text-slate-400">↕</span>
                         </th>
                         <th class="px-8 py-4 text-left text-sm font-semibold text-slate-700 cursor-pointer hover:bg-slate-100 transition-colors" onclick="sortTable('full_name')">
-                            Nom <span class="text-slate-400">↕</span>
+                            {{ __('messages.prospects.table.name') }} <span class="text-slate-400">↕</span>
                         </th>
-                        <th class="px-8 py-4 text-left text-sm font-semibold text-slate-700">Téléphone</th>
-                        <th class="px-8 py-4 text-left text-sm font-semibold text-slate-700">Email</th>
+                        <th class="px-8 py-4 text-left text-sm font-semibold text-slate-700">{{ __('messages.prospects.table.phone') }}</th>
+                        <th class="px-8 py-4 text-left text-sm font-semibold text-slate-700">{{ __('messages.prospects.table.email') }}</th>
                         <th class="px-8 py-4 text-left text-sm font-semibold text-slate-700 cursor-pointer hover:bg-slate-100 transition-colors" onclick="sortTable('city')">
-                            Ville <span class="text-slate-400">↕</span>
+                            {{ __('messages.prospects.table.city') }} <span class="text-slate-400">↕</span>
                         </th>
                         <th class="px-8 py-4 text-left text-sm font-semibold text-slate-700 cursor-pointer hover:bg-slate-100 transition-colors" onclick="sortTable('created_at')">
-                            Date <span class="text-slate-400">↕</span>
+                            {{ __('messages.prospects.table.date') }} <span class="text-slate-400">↕</span>
                         </th>
-                        <th class="px-8 py-4 text-left text-sm font-semibold text-slate-700">Actions</th>
+                        <th class="px-8 py-4 text-left text-sm font-semibold text-slate-700">{{ __('messages.prospects.table.actions') }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -172,7 +172,7 @@
                                 </div>
                             </td>
                             <td class="px-8 py-4">
-                                <span class="text-slate-600">{{ $prospect->email ?? 'Non renseigné' }}</span>
+                                <span class="text-slate-600">{{ $prospect->email ?? __('messages.prospects.no_email') }}</span>
                             </td>
                             <td class="px-8 py-4">
                                 <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-pink-100 to-rose-100 text-pink-800 border border-pink-200">
@@ -180,7 +180,7 @@
                                         <path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
                                         <path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
                                     </svg>
-                                    {{ $prospect->city }}
+                                    {{ __('cities.' . strtolower(trim($prospect->city))) ?? ucfirst(strtolower(trim($prospect->city))) }}
                                 </span>
                             </td>
                             <td class="px-8 py-4">
@@ -196,14 +196,14 @@
                                         <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
                                         </svg>
-                                        Modifier
+                                        {{ __('messages.common.edit') }}
                                     </a>
                                     <button onclick="confirmDelete({{ $prospect->id }}, '{{ $prospect->full_name }}')" 
                                             class="inline-flex items-center px-3 py-1.5 bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 text-white text-xs font-medium rounded-lg transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-105">
                                         <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
                                         </svg>
-                                        Supprimer
+                                        {{ __('messages.common.delete') }}
                                     </button>
                                 </div>
                             </td>
@@ -215,8 +215,8 @@
                                     <svg class="w-16 h-16 text-slate-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"/>
                                     </svg>
-                                    <p class="text-slate-500 text-lg font-medium">Aucun prospect trouvé</p>
-                                    <p class="text-slate-400 text-sm mt-1">Essayez d'ajuster vos filtres de recherche</p>
+                                    <p class="text-slate-500 text-lg font-medium">{{ __('messages.prospects.table.empty') }}</p>
+                                    <p class="text-slate-400 text-sm mt-1">{{ __('messages.prospects.table.empty_help') }}</p>
                                 </div>
                             </td>
                         </tr>
@@ -246,19 +246,19 @@
                 </svg>
             </div>
             <div>
-                <h3 class="text-xl font-bold text-slate-900">Confirmation de suppression</h3>
-                <p class="text-slate-600 text-sm">Cette action est irréversible</p>
+                <h3 class="text-xl font-bold text-slate-900">{{ __('messages.prospects.delete_confirm_title') }}</h3>
+                <p class="text-slate-600 text-sm">{{ __('messages.prospects.delete_confirm_subtitle') }}</p>
             </div>
         </div>
         <p id="deleteMessage" class="text-slate-600 mb-6"></p>
         <div class="flex justify-end gap-3">
             <button onclick="closeDeleteModal()" class="px-6 py-3 text-slate-600 hover:text-slate-900 rounded-xl hover:bg-slate-100 transition-all duration-200 font-medium">
-                Annuler
+                {{ __('messages.common.cancel') }}
             </button>
             <form id="deleteForm" method="POST" class="inline">
                 @csrf @method('DELETE')
                 <button type="submit" class="px-6 py-3 bg-gradient-to-r from-red-600 to-pink-600 hover:from-red-700 hover:to-pink-700 text-white rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 font-medium">
-                    Supprimer
+                    {{ __('messages.common.delete') }}
                 </button>
             </form>
         </div>
@@ -276,7 +276,7 @@ const deleteSelectedBtn = document.getElementById('deleteSelectedBtn');
 
 function updateSelectedCount() {
     const checked = document.querySelectorAll('.prospect-checkbox:checked');
-    selectedCount.textContent = checked.length + ' sélectionné(s)';
+    selectedCount.textContent = checked.length + ' {{ __('messages.prospects.bulk.selected') }}';
     
     const hasSelection = checked.length > 0;
     exportSelectedBtn.disabled = !hasSelection;
@@ -334,7 +334,7 @@ function deleteSelected() {
     const checked = document.querySelectorAll('.prospect-checkbox:checked');
     if (checked.length === 0) return;
     
-    if (confirm(`Êtes-vous sûr de vouloir supprimer ${checked.length} prospect(s) ?`)) {
+    if (confirm(`{{ __('messages.prospects.bulk_delete_confirm') }}`.replace(':count', checked.length))) {
         const ids = Array.from(checked).map(cb => cb.value);
         
         const form = document.createElement('form');
@@ -366,7 +366,7 @@ function deleteSelected() {
 
 // Modal suppression
 function confirmDelete(id, name) {
-    document.getElementById('deleteMessage').textContent = `Êtes-vous sûr de vouloir supprimer "${name}" ?`;
+    document.getElementById('deleteMessage').textContent = `{{ __('messages.prospects.delete_confirm_message') }}`.replace(':name', name);
     document.getElementById('deleteForm').action = '{{ route("admin.prospects.destroy", ":id") }}'.replace(':id', id);
     document.getElementById('deleteModal').classList.remove('hidden');
 }

@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Paramètres')
+@section('title', __('messages.settings.title'))
 
 @section('content')
 <div class="py-12">
@@ -8,9 +8,9 @@
         <!-- Header -->
         <div class="mb-8">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Paramètres du compte
+                {{ __('messages.settings.account_title') }}
             </h2>
-            <p class="text-gray-600 mt-2">Modifiez vos informations personnelles</p>
+            <p class="text-gray-600 mt-2">{{ __('messages.settings.account_description') }}</p>
         </div>
 
         <!-- Messages flash -->
@@ -23,7 +23,7 @@
         <!-- Formulaire settings -->
         <div class="bg-white rounded-xl shadow-lg overflow-hidden">
             <div class="p-6 border-b">
-                <h3 class="text-2xl font-bold">Informations personnelles</h3>
+                <h3 class="text-2xl font-bold">{{ __('messages.settings.personal_info') }}</h3>
             </div>
             
             <form method="POST" action="{{ route('admin.settings.update') }}" class="p-6">
@@ -34,7 +34,7 @@
                     <!-- Nom -->
                     <div>
                         <label for="name" class="block text-sm font-medium text-gray-700 mb-2">
-                            Nom complet
+                            {{ __('messages.settings.name') }}
                         </label>
                         <input type="text" 
                                id="name" 
@@ -50,7 +50,7 @@
                     <!-- Email -->
                     <div>
                         <label for="email" class="block text-sm font-medium text-gray-700 mb-2">
-                            Adresse email
+                            {{ __('messages.settings.email') }}
                         </label>
                         <input type="email" 
                                id="email" 
@@ -66,14 +66,14 @@
 
                 <!-- Changement mot de passe -->
                 <div class="mt-8 pt-8 border-t">
-                    <h4 class="text-lg font-semibold text-gray-900 mb-4">Changer le mot de passe</h4>
-                    <p class="text-gray-600 mb-6">Laissez vide si vous ne souhaitez pas modifier votre mot de passe</p>
+                    <h4 class="text-lg font-semibold text-gray-900 mb-4">{{ __('messages.settings.password_change') }}</h4>
+                    <p class="text-gray-600 mb-6">{{ __('messages.settings.password_note') }}</p>
 
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <!-- Mot de passe actuel -->
                         <div>
                             <label for="current_password" class="block text-sm font-medium text-gray-700 mb-2">
-                                Mot de passe actuel
+                                {{ __('messages.settings.current_password') }}
                             </label>
                             <input type="password" 
                                    id="current_password" 
@@ -87,7 +87,7 @@
                         <!-- Nouveau mot de passe -->
                         <div>
                             <label for="new_password" class="block text-sm font-medium text-gray-700 mb-2">
-                                Nouveau mot de passe
+                                {{ __('messages.settings.new_password') }}
                             </label>
                             <input type="password" 
                                    id="new_password" 
@@ -101,7 +101,7 @@
                         <!-- Confirmation mot de passe -->
                         <div>
                             <label for="new_password_confirmation" class="block text-sm font-medium text-gray-700 mb-2">
-                                Confirmer le nouveau mot de passe
+                                {{ __('messages.settings.confirm_password') }}
                             </label>
                             <input type="password" 
                                    id="new_password_confirmation" 
@@ -114,10 +114,10 @@
                 <!-- Boutons -->
                 <div class="mt-8 flex justify-end gap-4">
                     <a href="{{ route('dashboard') }}" class="px-6 py-3 text-gray-600 hover:text-gray-900 rounded-lg hover:bg-gray-100 transition">
-                        Annuler
+                        {{ __('messages.common.cancel') }}
                     </a>
                     <button type="submit" class="bg-indigo-600 text-white px-6 py-3 rounded-lg hover:bg-indigo-700 transition shadow-lg">
-                        Enregistrer les modifications
+                        {{ __('messages.settings.save_changes') }}
                     </button>
                 </div>
             </form>
