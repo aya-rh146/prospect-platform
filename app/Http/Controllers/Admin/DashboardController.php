@@ -34,6 +34,12 @@ class DashboardController extends Controller
         $visitorsMonth = Visitor::getThisMonthCount() ?? 0;
         $visitorsTotal = Visitor::getTotalCount() ?? 0;
 
+        // Statistiques mensuelles pour les graphiques
+        $monthlyStats = Prospect::selectRaw('DATE_FORMAT(created_at, "%Y-%m") as month, count(*) as count')
+            ->groupBy('month')
+            ->orderBy('month')
+            ->pluck('count', 'month');
+
         $recentProspects = Prospect::latest()->take(10)->get();
 
         $lastProspects = Prospect::latest()->take(5)->get();
@@ -53,6 +59,16 @@ class DashboardController extends Controller
         // Ajout de cette ligne pour connaître le dernier lead ID
         $lastLeadId = Prospect::max('id') ?? 0;
         
+        // Préparer les données pour les graphiques
+        $cityData = [
+            'categories' => $cityDistribution->keys()->toArray(),
+            'values' => $cityDistribution->values()->toArray()
+        ];
+        
+        $monthlyData = [
+            'categories' => $monthlyStats->keys()->toArray(),
+            'values' => $monthlyStats->values()->toArray()
+        ];
 
         return view('dashboard', compact(
             'totalProspects', 
@@ -66,7 +82,9 @@ class DashboardController extends Controller
             'newToday',
             'topCity',
             'lastProspects',
-            'lastLeadId'
+            'lastLeadId',
+            'cityData',
+            'monthlyData'
         ));
     }
 }

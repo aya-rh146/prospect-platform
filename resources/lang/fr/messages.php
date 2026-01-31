@@ -44,6 +44,7 @@ return [
     'dashboard.stats.total' => 'Total Prospects',
     'dashboard.stats.today' => 'Nouveaux aujourd\'hui',
     'dashboard.stats.top_city' => 'Top Ville',
+    'dashboard.stats.unique_visitors' => 'Visiteurs uniques',
     'dashboard.stats.none' => 'Aucune',
     'dashboard.recent.title' => 'Derniers 5 prospects',
     'dashboard.recent.name' => 'Nom',
@@ -123,6 +124,16 @@ return [
     'settings.save_changes' => 'Enregistrer les modifications',
     'settings.update_success' => 'Profil mis à jour avec succès.',
     'settings.password_success' => 'Mot de passe mis à jour avec succès.',
+    
+    // Logs
+    'logs.title' => 'Logs d\'activité',
+    'logs.description' => 'Historique des actions dans le système',
+    'logs.table.date' => 'Date',
+    'logs.table.user' => 'Utilisateur',
+    'logs.table.action' => 'Action',
+    'logs.table.subject' => 'Sujet',
+    'logs.table.empty' => 'Aucun log trouvé.',
+    'logs.actions.view' => 'Voir',
     
     // Notifications
     'notifications.title' => 'Notifications des nouveaux leads aujourd\'hui',

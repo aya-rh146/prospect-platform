@@ -34,26 +34,44 @@
         </script>
     </head>
     <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100">
+        <div class="min-h-screen bg-gray-100 flex flex-col">
             @include('layouts.navigation')
 
             <!-- Page Heading -->
             @isset($header)
-                <header class="bg-white shadow">
+                <header >
                     <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                         {{ $header }}
                     </div>
-                    <button onclick="document.documentElement.classList.toggle('dark'); localStorage.theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light'" class="p-3">
-                        <span class="dark:hidden">🌙</span>
-                        <span class="hidden dark:inline">☀️</span>
-                    </button>
                 </header>
             @endisset
 
             <!-- Page Content -->
-            <main>
+            <main class="flex-grow">
                 {{ $slot }}
             </main>
+
+            <!-- Footer -->
+            <footer class="bg-gray-800 text-white mt-8">
+                <div class="container mx-auto px-4 py-6">
+                    <div class="flex flex-col md:flex-row justify-between items-center">
+                        <div class="mb-4 md:mb-0">
+                            <p class="text-gray-300">&copy; {{ date('Y') }} Business Pro Academy. Panel d'administration.</p>
+                        </div>
+                        <div class="flex space-x-6">
+                            <a href="{{ route('dashboard') }}" class="text-gray-300 hover:text-white transition">
+                                Dashboard
+                            </a>
+                            <a href="{{ route('admin.prospects.index') }}" class="text-gray-300 hover:text-white transition">
+                                Prospects
+                            </a>
+                            <a href="{{ route('admin.videos.index') }}" class="text-gray-300 hover:text-white transition">
+                                Vidéos
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
         </div>
     </body>
 </html>

@@ -44,6 +44,7 @@ return [
     'dashboard.stats.total' => 'إجمالي العملاء المحتملين',
     'dashboard.stats.today' => 'الجدد اليوم',
     'dashboard.stats.top_city' => 'أفضل مدينة',
+    'dashboard.stats.unique_visitors' => 'الزوار الفريدون',
     'dashboard.stats.none' => 'لا شيء',
     'dashboard.recent.title' => 'آخر 5 عملاء محتملين',
     'dashboard.recent.name' => 'الاسم',
@@ -123,6 +124,16 @@ return [
     'settings.save_changes' => 'حفظ التغييرات',
     'settings.update_success' => 'تم تحديث الملف الشخصي بنجاح.',
     'settings.password_success' => 'تم تحديث كلمة المرور بنجاح.',
+    
+    // Logs
+    'logs.title' => 'سجل النشاط',
+    'logs.description' => 'سجل الإجراءات في النظام',
+    'logs.table.date' => 'التاريخ',
+    'logs.table.user' => 'المستخدم',
+    'logs.table.action' => 'الإجراء',
+    'logs.table.subject' => 'الموضوع',
+    'logs.table.empty' => 'لم يتم العثور على سجلات.',
+    'logs.actions.view' => 'عرض',
     
     // Notifications
     'notifications.title' => 'إشعارات العملاء الجدد اليوم',

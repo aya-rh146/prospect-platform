@@ -57,9 +57,15 @@ Route::middleware('auth')->group(function () {
     Route::put('/prospects/{id}', [App\Http\Controllers\Admin\ProspectController::class, 'update'])->name('admin.prospects.update');
     Route::delete('/prospects/{id}', [App\Http\Controllers\Admin\ProspectController::class, 'destroy'])->name('admin.prospects.destroy');
     Route::post('/prospects/export', [App\Http\Controllers\Admin\ProspectController::class, 'export'])->name('admin.prospects.export');
+    Route::get('/prospects/export/pdf', [App\Http\Controllers\Admin\ProspectController::class, 'exportPDF'])->name('admin.prospects.export.pdf');
+    Route::post('/prospects/bulk-delete', [App\Http\Controllers\Admin\ProspectController::class, 'bulkDelete'])->name('admin.prospects.bulk-delete');
     Route::get('/admin/prospects', [App\Http\Controllers\Admin\ProspectController::class, 'index'])->name('admin.prospects');
     Route::delete('/admin/prospects/{prospect}', [App\Http\Controllers\Admin\ProspectController::class, 'destroy'])->name('admin.prospects.destroy');
     Route::post('/prospects/bulk-delete', [App\Http\Controllers\Admin\ProspectController::class, 'bulkDelete'])->name('admin.prospects.bulkDelete');
+    
+    // Logs routes
+    Route::get('/admin/logs', [App\Http\Controllers\Admin\LogController::class, 'index'])->name('admin.logs.index');
+    Route::get('/admin/logs/{log}', [App\Http\Controllers\Admin\LogController::class, 'show'])->name('admin.logs.show');
     
     // Videos routes
     Route::get('/admin/videos', [App\Http\Controllers\Admin\VideoController::class, 'index'])->name('admin.videos.index');
@@ -69,10 +75,6 @@ Route::middleware('auth')->group(function () {
     Route::put('/admin/videos/{video}', [App\Http\Controllers\Admin\VideoController::class, 'update'])->name('admin.videos.update');
     Route::delete('/admin/videos/{video}', [App\Http\Controllers\Admin\VideoController::class, 'destroy'])->name('admin.videos.destroy');
     Route::post('/admin/videos/reorder', [App\Http\Controllers\Admin\VideoController::class, 'reorder'])->name('admin.videos.reorder');
-    
-    // Settings routes
-    Route::get('/admin/settings', [App\Http\Controllers\Admin\SettingsController::class, 'index'])->name('admin.settings');
-    Route::put('/admin/settings', [App\Http\Controllers\Admin\SettingsController::class, 'update'])->name('admin.settings.update');
     
     // Route للـ polling ديال الـ new leads (notification toast + sound)
     Route::get('/check-new-leads', function () {

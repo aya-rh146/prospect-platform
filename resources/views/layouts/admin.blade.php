@@ -7,6 +7,9 @@
     <!-- Tailwind CSS CDN (comme les pages publiques) -->
     <script src="https://cdn.tailwindcss.com"></script>
     
+    <!-- ApexCharts CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts@latest"></script>
+    
     <!-- SweetAlert2 CDN -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
@@ -114,9 +117,6 @@
                     </a>
                     <a href="{{ route('admin.videos.index') }}" class="text-gray-300 hover:text-white transition">
                         Vidéos
-                    </a>
-                    <a href="{{ route('admin.settings') }}" class="text-gray-300 hover:text-white transition">
-                        Paramètres
                     </a>
                 </div>
             </div>
